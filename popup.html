@@ -1,0 +1,107 @@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Dictado</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+            width: 400px;
+            margin: auto;
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        textarea,
+        select,
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        textarea {
+            border: 1px solid #ccc;
+            /* resize: none; */
+            height: 100px;
+        }
+        textarea:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        /* button {
+            border: none;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 500;
+            padding: 12px 0;
+        } */
+        button:active {
+            transform: translateY(2px);
+            opacity: 0.8;
+        }
+        #startStop {
+            background-color: #1a3636;
+        }
+        #startStop:hover {
+            background-color: #40534c;
+        }
+        #clear {
+            background-color: #677d6a;
+        }
+        #clear:hover {
+            background-color: #d6bd98;
+        }
+        #repeat {
+            background-color: #40534c;
+        }
+        #repeat:hover {
+            background-color: #677d6a;
+        }
+        #copy {
+            background-color: #1a3636;
+        }
+        #copy:hover {
+            background-color: #40534c;
+        }
+        #status {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            color: black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dictado</h1>
+    <textarea id="text" placeholder="Aquí aparecerá el texto dictado..."></textarea>
+    
+    <div class="button-container">
+        <button class="btn text-white" id="startStop"><i class="fas fa-microphone"></i> Iniciar</button>
+        <button class="btn text-white" id="repeat"><i class="fas fa-redo"></i> Repetir</button>
+        <button class="btn text-white" id="clear"><i class="fas fa-trash"></i> Limpiar</button>
+        <button class="btn text-white" id="copy"><i class="fas fa-clone"></i> Copiar</button>
+    </div>
+    
+    <div id="status"></div>
+    
+    <label for="language">Selecciona el idioma:</label>
+    <select id="language">
+        <option value="es-ES">Español</option>
+        <option value="en-US">Inglés</option>
+    </select>
+
+    <script src="popup.js"></script>
+</body>
