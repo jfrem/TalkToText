@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Voice Dictation",
+  "version": "1.0",
+  "description": "Extensión de dictado por voz.",
+  "permissions": ["tabs", "activeTab", "scripting", "storage", "microphone"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "48": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["popup.js"]
+    }
+  ]
+}
