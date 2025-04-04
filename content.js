@@ -49,7 +49,7 @@ class VoiceDictation {
       enableVoiceCommands: true,
       continuousMode: true,
       idleTimeout: 30000,
-      accentColor: "#1a3636",
+      accentColor: "#F2EFE7",
     };
 
     // Enhanced punctuation and command maps
@@ -1047,536 +1047,585 @@ class VoiceDictation {
   injectStyles() {
     const style = document.createElement("style");
     style.textContent = `
-      #voice-dictation-button {
-        position: absolute;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: ${this.userSettings.accentColor};
-        color: white;
-        border: none;
-        cursor: pointer;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: transform 0.2s, background 0.2s;
-        font-size: 18px;
-        outline: none;
-      }
+    /* Paleta Minimalista y Moderna */
+    :root {
+      /* Fondo y Texto */
+      --color-fondo: #F2EFE7;
+      --color-texto: #006A71;
       
-      #voice-dictation-button:focus {
-        box-shadow: 0 0 0 3px rgba(26, 54, 54, 0.4);
-      }
+      /* Colores de Acción */
+      --color-primario: #006A71;
+      --color-primario-hover: #48A6A7;
+      --color-secundario: #48A6A7;
+      --color-secundario-hover: #9ACBD0;
       
-      #voice-dictation-button:hover {
-        transform: scale(1.1);
-        background: ${this.adjustColor(this.userSettings.accentColor, -20)};
-      }
+      /* Detalles y Bordes */
+      --color-acento: #9ACBD0;
+      --color-borde: #9ACBD0;
       
-      #voice-dictation-button.recording {
-        background: #db4437;
-        animation: pulse 1.5s infinite;
+      /* Estados (error, alertas, etc.) */
+      --color-error: #F7374F;
+    }
+
+    /* Modo Oscuro: Inversión para mayor contraste */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-fondo: #27445D;
+        --color-texto: #F2EFE7;
+        --color-primario: #F2EFE7;
+        --color-primario-hover: #9ACBD0;
+        --color-secundario: #48A6A7;
+        --color-secundario-hover: #9ACBD0;
+        --color-acento: #9ACBD0;
+        --color-borde: #9ACBD0;
+        --color-error: #F7374F;
       }
-      
-      #voice-dictation-button.recording:hover {
-        background: #c53929;
-      }
-      
-      #voice-dictation-button.command-mode {
-        background: #4285f4;
-      }
-      
-      #voice-dictation-button.command-mode:hover {
-        background: #3367d6;
-      }
-      
-      #voice-dictation-button.command-mode.recording {
-        background: #4285f4;
-        animation: pulse 1.5s infinite;
-      }
-      
-      #voice-dictation-tooltip {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0,0,0,0.7);
-        color: white;
-        padding: 12px 24px;
-        border-radius: 4px;
-        font-size: 16px;
-        pointer-events: none;
-        opacity: 0;
-        z-index: 10000;
-        max-width: 80vw;
-        text-align: center;
-        transition: opacity 0.3s;
-      }
-      
-      #voice-dictation-tooltip.error {
-        background: rgba(211, 47, 47, 0.9);
-      }
-      
-      #voice-dictation-tooltip.status {
-        background: rgba(56, 142, 60, 0.9);
-      }
-      
-      #voice-dictation-tooltip.command {
-        background: rgba(66, 133, 244, 0.9);
-      }
-      
-      #voice-dictation-feedback {
-        position: fixed;
-        bottom: 70px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0,0,0,0.7);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 4px;
-        font-size: 14px;
-        pointer-events: none;
-        opacity: 0;
-        z-index: 9998;
-        max-width: 80vw;
-        text-align: center;
-        transition: opacity 0.3s;
-      }
-      
+    }
+
+    /* Botón de Dictado de Voz */
+    #voice-dictation-button {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-primario);
+      color: var(--color-fondo);
+      border: none;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background 0.2s;
+      font-size: 18px;
+      outline: none;
+    }
+    
+    #voice-dictation-button:focus {
+      box-shadow: 0 0 0 3px rgba(26, 54, 54, 0.4);
+    }
+    
+    #voice-dictation-button:hover {
+      transform: scale(1.1);
+      background: var(--color-primario-hover);
+    }
+    
+    /* Estados del Botón */
+    #voice-dictation-button.recording {
+      background: var(--color-error);
+      animation: pulse 1.5s infinite;
+    }
+    
+    #voice-dictation-button.recording:hover {
+      background: var(--color-secundario-hover);
+    }
+    
+    #voice-dictation-button.command-mode {
+      background: var(--color-secundario);
+    }
+    
+    #voice-dictation-button.command-mode:hover {
+      background: var(--color-secundario-hover);
+    }
+    
+    #voice-dictation-button.command-mode.recording {
+      background: var(--color-secundario);
+      animation: pulse 1.5s infinite;
+    }
+    
+    /* Tooltip de Dictado de Voz */
+    #voice-dictation-tooltip {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      color: var(--color-fondo);
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 16px;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 10000;
+      max-width: 80vw;
+      text-align: center;
+      transition: opacity 0.3s;
+    }
+    
+    #voice-dictation-tooltip.error {
+      background: var(--color-error);
+    }
+    
+    #voice-dictation-tooltip.status {
+      background: var(--color-secundario);
+    }
+    
+    #voice-dictation-tooltip.command {
+      background: var(--color-secundario-hover);
+    }
+    
+    /* Feedback de Dictado de Voz */
+    #voice-dictation-feedback {
+      position: fixed;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      color: var(--color-fondo);
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 9998;
+      max-width: 80vw;
+      text-align: center;
+      transition: opacity 0.3s;
+    }
+    
+    /* Panel de Control de Dictado de Voz */
+    #voice-dictation-control-panel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--color-fondo);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 9997;
+      display: block;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    #voice-dictation-control-panel .control-buttons {
+      display: flex;
+      border-bottom: 1px solid var(--color-borde);
+    }
+    
+    #voice-dictation-control-panel button {
+      background: none;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      color: var(--color-texto);
+      transition: all 0.2s;
+    }
+    
+    #voice-dictation-control-panel button:hover {
+      background: var(--color-fondo);
+      color: var(--color-primario);
+    }
+    
+    #voice-dictation-control-panel .language-selector {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px;
+      max-width: 200px;
+    }
+    
+    #voice-dictation-control-panel .language-selector button {
+      flex: 1 0 50%;
+      text-align: center;
+      padding: 8px;
+      font-size: 12px;
+    }
+    
+    /* Indicador de Confianza */
+    #voice-dictation-confidence {
+      position: fixed;
+      bottom: 70px;
+      right: 20px;
+      width: 150px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 4px;
+      padding: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      z-index: 9996;
+      display: none;
+    }
+    
+    #voice-dictation-confidence .confidence-bar {
+      height: 6px;
+      background: var(--color-borde);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    #voice-dictation-confidence .confidence-level {
+      height: 100%;
+      width: 0%;
+      background: var(--color-primario);
+      transition: width 0.3s;
+    }
+    
+    /* Configuración de Dictado de Voz */
+    #voice-dictation-settings {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--color-fondo);
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 10001;
+      width: 400px;
+      max-width: 90vw;
+      max-height: 85vh;
+      overflow: hidden;
+      color: var(--color-texto);
+    }
+    
+    #voice-dictation-settings .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--color-borde);
+    }
+    
+    #voice-dictation-settings .settings-header h3 {
+      margin: 0;
+      color: var(--color-primario);
+      font-size: 18px;
+    }
+    
+    #voice-dictation-settings #vd-close-settings {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      color: var(--color-borde);
+    }
+    
+    #voice-dictation-settings #vd-close-settings:hover {
+      color: var(--color-texto);
+    }
+    
+    #voice-dictation-settings .settings-content {
+      padding: 20px;
+      max-height: calc(85vh - 60px);
+      overflow-y: auto;
+    }
+    
+    .settings-tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--color-borde);
+    }
+    
+    .settings-tabs .tab-btn {
+      background: none;
+      border: none;
+      padding: 10px 15px;
+      margin-right: 5px;
+      cursor: pointer;
+      color: var(--color-texto);
+      border-bottom: 2px solid transparent;
+    }
+    
+    .settings-tabs .tab-btn.active {
+      color: var(--color-primario);
+      border-bottom: 2px solid var(--color-primario);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .setting-group {
+      margin-bottom: 15px;
+    }
+    
+    .setting-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .setting-group input[type="checkbox"] {
+      margin-right: 8px;
+    }
+    
+    .setting-group select,
+    .setting-group input[type="number"],
+    .setting-group input[type="text"],
+    .setting-group input[type="color"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--color-borde);
+      border-radius: 4px;
+      box-sizing: border-box;
+      color: var(--color-texto);
+      background: var(--color-fondo);
+    }
+    
+    .setting-group input[type="range"] {
+      width: 80%;
+      vertical-align: middle;
+    }
+    
+    #vd-confidence-value {
+      display: inline-block;
+      width: 15%;
+      text-align: right;
+      padding-left: 5px;
+    }
+    
+    h4 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--color-borde);
+      color: var(--color-texto);
+    }
+    
+    .scrollable-list {
+      list-style: none;
+      padding: 0;
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid var(--color-borde);
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    
+    .scrollable-list li {
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--color-fondo-alt);
+    }
+    
+    .scrollable-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .scrollable-list li:hover {
+      background: var(--color-fondo-alt);
+    }
+    
+    .scrollable-list .empty-list {
+      color: var(--color-borde);
+      font-style: italic;
+      justify-content: center;
+    }
+    
+    .incorrect-word {
+      color: var(--color-error);
+      text-decoration: line-through;
+      margin-right: 5px;
+    }
+    
+    .correct-word {
+      color: var(--color-secundario);
+      font-weight: 500;
+    }
+    
+    .remove-term {
+      background: none;
+      border: none;
+      color: var(--color-error);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 5px;
+    }
+    
+    .dictionary-search {
+      margin-bottom: 10px;
+    }
+    
+    .dictionary-search input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--color-borde);
+      border-radius: 4px;
+      box-sizing: border-box;
+      background: var(--color-fondo);
+      color: var(--color-texto);
+    }
+    
+    .add-term {
+      display: flex;
+      margin-top: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .add-term input {
+      flex-grow: 1;
+      margin-right: 5px;
+      padding: 8px;
+      border: 1px solid var(--color-borde);
+      border-radius: 4px;
+      background: var(--color-fondo);
+      color: var(--color-texto);
+    }
+    
+    .add-term button {
+      padding: 8px 12px;
+      background: var(--color-primario);
+      color: var(--color-fondo);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .correction-pair {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    
+    .correction-pair input {
+      flex-grow: 1;
+      margin-right: 5px;
+      padding: 8px;
+      border: 1px solid var(--color-borde);
+      border-radius: 4px;
+      background: var(--color-fondo);
+      color: var(--color-texto);
+    }
+    
+    .correction-pair button {
+      padding: 8px 12px;
+      background: var(--color-primario);
+      color: var(--color-fondo);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .settings-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid var(--color-borde);
+    }
+    
+    .settings-buttons button {
+      padding: 8px 15px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    #vd-save-settings {
+      background: var(--color-primario);
+      color: var(--color-fondo);
+    }
+    
+    #vd-reset-settings {
+      background: var(--color-fondo-alt);
+      color: var(--color-texto);
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Ajustes de Modo Oscuro en Componentes Específicos */
+    @media (prefers-color-scheme: dark) {
+      #voice-dictation-settings,
       #voice-dictation-control-panel {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        z-index: 9997;
-        display: ${this.userSettings.showControlPanel ? "block" : "none"};
-        overflow: hidden;
-        transition: all 0.3s ease;
+        background: var(--color-fondo);
+        color: var(--color-texto);
       }
       
-      #voice-dictation-control-panel .control-buttons {
-        display: flex;
-        border-bottom: 1px solid #eee;
-      }
-      
-      #voice-dictation-control-panel button {
-        background: none;
-        border: none;
-        padding: 10px 15px;
-        cursor: pointer;
-        color: #555;
-        transition: all 0.2s;
-      }
-      
-      #voice-dictation-control-panel button:hover {
-        background: #f5f5f5;
-        color: ${this.userSettings.accentColor};
-      }
-      
-      #voice-dictation-control-panel .language-selector {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 10px;
-        max-width: 200px;
-      }
-      
-      #voice-dictation-control-panel .language-selector button {
-        flex: 1 0 50%;
-        text-align: center;
-        padding: 8px;
-        font-size: 12px;
-      }
-      
-      #voice-dictation-confidence {
-        position: fixed;
-        bottom: 70px;
-        right: 20px;
-        width: 150px;
-        background: rgba(255,255,255,0.8);
-        border-radius: 4px;
-        padding: 5px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        z-index: 9996;
-        display: none;
-      }
-      
-      #voice-dictation-confidence .confidence-bar {
-        height: 6px;
-        background: #eee;
-        border-radius: 3px;
-        overflow: hidden;
-      }
-      
-      #voice-dictation-confidence .confidence-level {
-        height: 100%;
-        width: 0%;
-        background: ${this.userSettings.accentColor};
-        transition: width 0.3s;
-      }
-      
-      #voice-dictation-settings {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        z-index: 10001;
-        width: 400px;
-        max-width: 90vw;
-        max-height: 85vh;
-        overflow: hidden;
-        color: #333;
-      }
-      
-      #voice-dictation-settings .settings-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px;
-        border-bottom: 1px solid #eee;
-      }
-      
-      #voice-dictation-settings .settings-header h3 {
-        margin: 0;
-        color: ${this.userSettings.accentColor};
-        font-size: 18px;
+      #voice-dictation-settings h3 {
+        color: var(--color-primario);
       }
       
       #voice-dictation-settings #vd-close-settings {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        padding: 0;
-        line-height: 1;
-        color: #999;
+        color: var(--color-borde);
       }
       
       #voice-dictation-settings #vd-close-settings:hover {
-        color: #333;
-      }
-      
-      #voice-dictation-settings .settings-content {
-        padding: 20px;
-        max-height: calc(85vh - 60px);
-        overflow-y: auto;
+        color: var(--color-texto);
       }
       
       .settings-tabs {
-        display: flex;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #eee;
+        border-bottom-color: var(--color-borde);
       }
       
       .settings-tabs .tab-btn {
-        background: none;
-        border: none;
-        padding: 10px 15px;
-        margin-right: 5px;
-        cursor: pointer;
-        color: #666;
-        border-bottom: 2px solid transparent;
-      }
-      
-      .settings-tabs .tab-btn.active {
-        color: ${this.userSettings.accentColor};
-        border-bottom: 2px solid ${this.userSettings.accentColor};
-      }
-      
-      .tab-content {
-        display: none;
-      }
-      
-      .tab-content.active {
-        display: block;
-      }
-      
-      .setting-group {
-        margin-bottom: 15px;
-      }
-      
-      .setting-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 500;
-      }
-      
-      .setting-group input[type="checkbox"] {
-        margin-right: 8px;
-      }
-      
-      .setting-group select, 
-      .setting-group input[type="number"],
-      .setting-group input[type="text"],
-      .setting-group input[type="color"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box;
-      }
-      
-      .setting-group input[type="range"] {
-        width: 80%;
-        vertical-align: middle;
-      }
-      
-      #vd-confidence-value {
-        display: inline-block;
-        width: 15%;
-        text-align: right;
-        padding-left: 5px;
-      }
-      
-      h4 {
-        margin-top: 20px;
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        border-bottom: 1px solid #eee;
-        color: #555;
+        color: var(--color-borde);
       }
       
       .scrollable-list {
-        list-style: none;
-        padding: 0;
-        max-height: 150px;
-        overflow-y: auto;
-        border: 1px solid #eee;
-        border-radius: 4px;
-        margin-bottom: 10px;
+        border-color: var(--color-borde);
       }
       
       .scrollable-list li {
-        padding: 8px 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #f5f5f5;
-      }
-      
-      .scrollable-list li:last-child {
-        border-bottom: none;
+        border-bottom-color: var(--color-fondo-alt);
       }
       
       .scrollable-list li:hover {
-        background: #f9f9f9;
+        background: var(--color-secundario-hover);
       }
       
-      .scrollable-list .empty-list {
-        color: #999;
-        font-style: italic;
-        justify-content: center;
+      .setting-group select,
+      .setting-group input[type="number"],
+      .setting-group input[type="text"] {
+        background: var(--color-fondo);
+        border-color: var(--color-borde);
+        color: var(--color-texto);
       }
       
-      .incorrect-word {
-        color: #d32f2f;
-        text-decoration: line-through;
-        margin-right: 5px;
-      }
-      
-      .correct-word {
-        color: #388e3c;
-        font-weight: 500;
-      }
-      
-      .remove-term {
-        background: none;
-        border: none;
-        color: #db4437;
-        cursor: pointer;
-        font-size: 16px;
-        padding: 0 5px;
-      }
-      
-      .dictionary-search {
-        margin-bottom: 10px;
-      }
-      
+      .add-term input,
+      .correction-pair input,
       .dictionary-search input {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box;
-      }
-      
-      .add-term {
-        display: flex;
-        margin-top: 5px;
-        margin-bottom: 20px;
-      }
-      
-      .add-term input {
-        flex-grow: 1;
-        margin-right: 5px;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-      }
-      
-      .add-term button {
-        padding: 8px 12px;
-        background: ${this.userSettings.accentColor};
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      
-      .correction-pair {
-        display: flex;
-        margin-bottom: 10px;
-      }
-      
-      .correction-pair input {
-        flex-grow: 1;
-        margin-right: 5px;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-      }
-      
-      .correction-pair button {
-        padding: 8px 12px;
-        background: ${this.userSettings.accentColor};
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      
-      .settings-buttons {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 20px;
-        padding-top: 15px;
-        border-top: 1px solid #eee;
-      }
-      
-      .settings-buttons button {
-        padding: 8px 15px;
-        margin-left: 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      
-      #vd-save-settings {
-        background: ${this.userSettings.accentColor};
-        color: white;
+        background: var(--color-fondo);
+        border-color: var(--color-borde);
+        color: var(--color-texto);
       }
       
       #vd-reset-settings {
-        background: #f5f5f5;
-        color: #333;
+        background: var(--color-borde);
+        color: var(--color-texto);
       }
       
-      @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
+      .settings-buttons {
+        border-top-color: var(--color-borde);
       }
       
-      /* Dark mode support */
-      @media (prefers-color-scheme: dark) {
-        #voice-dictation-settings,
-        #voice-dictation-control-panel {
-          background: #333;
-          color: #eee;
-        }
-        
-        #voice-dictation-settings h3 {
-          color: white;
-        }
-        
-        #voice-dictation-settings #vd-close-settings {
-          color: #ccc;
-        }
-        
-        #voice-dictation-settings #vd-close-settings:hover {
-          color: white;
-        }
-        
-        .settings-tabs {
-          border-bottom-color: #555;
-        }
-        
-        .settings-tabs .tab-btn {
-          color: #ccc;
-        }
-        
-        .scrollable-list {
-          border-color: #555;
-        }
-        
-        .scrollable-list li {
-          border-bottom-color: #444;
-        }
-        
-        .scrollable-list li:hover {
-          background: #3a3a3a;
-        }
-        
-        .setting-group select,
-        .setting-group input[type="number"],
-        .setting-group input[type="text"] {
-          background: #444;
-          border-color: #555;
-          color: #eee;
-        }
-        
-        .add-term input,
-        .correction-pair input,
-        .dictionary-search input {
-          background: #444;
-          border-color: #555;
-          color: #eee;
-        }
-        
-        #vd-reset-settings {
-          background: #444;
-          color: #eee;
-        }
-        
-        .settings-buttons {
-          border-top-color: #444;
-        }
-        
-        #voice-dictation-control-panel button {
-          color: #ccc;
-        }
-        
-        #voice-dictation-control-panel button:hover {
-          background: #444;
-        }
-        
-        #voice-dictation-confidence {
-          background: rgba(51,51,51,0.8);
-        }
-        
-        #voice-dictation-confidence .confidence-bar {
-          background: #444;
-        }
+      #voice-dictation-control-panel button {
+        color: var(--color-borde);
       }
       
-      @media (prefers-reduced-motion: reduce) {
-        #voice-dictation-button, 
-        #voice-dictation-tooltip, 
-        #voice-dictation-feedback,
-        #voice-dictation-control-panel,
-        #voice-dictation-confidence .confidence-level {
-          transition: none;
-          animation: none;
-        }
+      #voice-dictation-control-panel button:hover {
+        background: var(--color-fondo);
       }
-    `;
+      
+      #voice-dictation-confidence {
+        background: rgba(51,51,51,0.8);
+      }
+      
+      #voice-dictation-confidence .confidence-bar {
+        background: var(--color-borde);
+      }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      #voice-dictation-button, 
+      #voice-dictation-tooltip, 
+      #voice-dictation-feedback,
+      #voice-dictation-control-panel,
+      #voice-dictation-confidence .confidence-level {
+        transition: none;
+        animation: none;
+      }
+    }`;
     document.head.appendChild(style);
   }
 
