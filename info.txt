@@ -1,0 +1,64 @@
+# Optimizaciones y Nuevas Funcionalidades para tu Extensión de Transcripción de Voz
+
+## Optimizaciones
+
+1. **Rendimiento**:
+   - Implementa un sistema de carga diferida para inicializar la API de reconocimiento solo cuando sea necesario, no al cargar la página.
+   - Mejora el throttling de eventos con una implementación más eficiente de debounce, especialmente para los eventos scroll y resize.
+   - Optimiza los observadores para reducir el impacto en páginas con muchos elementos DOM.
+
+2. **Consumo de recursos**:
+   - Implementa un sistema de "modo de suspensión" que desactive temporalmente los observadores cuando no haya actividad por un tiempo.
+   - Limita la cantidad de nodos que se observan simultáneamente para reducir la sobrecarga de memoria.
+
+3. **Precisión de reconocimiento**:
+   - Mejora el procesamiento de texto con reglas contextuales más avanzadas para mejorar la puntuación automática.
+   - Implementa un sistema de retroalimentación para que los usuarios puedan corregir errores frecuentes.
+
+4. **Interfaz de usuario**:
+   - Mejora la accesibilidad de la interfaz según las pautas WCAG.
+   - Optimiza las animaciones CSS para dispositivos de bajo rendimiento.
+
+## Nuevas Funcionalidades
+
+1. **Diccionario personalizado**:
+   - Implementa un sistema para que los usuarios puedan añadir palabras personalizadas, nombres propios y términos técnicos que la API de reconocimiento podría no entender correctamente.
+   - Añade la posibilidad de importar/exportar estos diccionarios personalizados.
+
+2. **Reconocimiento de hablantes**:
+   - Integra la funcionalidad para identificar a diferentes hablantes en una grabación (podrías usar bibliotecas externas como voice-id o implementar algoritmos básicos de diferenciación).
+   - Añade etiquetas automáticas o permitir etiquetas personalizadas para cada hablante.
+
+3. **Transcripción de grabaciones**:
+   - Permite cargar archivos de audio para transcribirlos, no solo dictado en vivo.
+   - Implementa un reproductor de audio integrado con controles para pausar/continuar la transcripción.
+
+4. **Soporte multilingüe ampliado**:
+   - Añade más idiomas y dialectos, especialmente variantes regionales del español.
+   - Implementa detección automática de idioma.
+   - Permite la transcripción con cambios de idioma en la misma sesión.
+
+5. **Exportación y procesamiento posterior**:
+   - Añade funciones para exportar transcripciones en formatos como TXT, DOCX, SRT (subtítulos).
+   - Implementa opciones de formato automático según el contexto (correos, documentos, notas).
+
+6. **Comandos de voz avanzados**:
+   - Añade comandos por voz para formatear texto (negrita, cursiva, viñetas).
+   - Implementa comandos para controlar la aplicación por voz ("detener grabación", "deshacer").
+
+7. **Funciones de productividad**:
+   - Añade un modo de resumen automático que destile los puntos clave de una transcripción.
+   - Implementa detección de acciones (identificar fechas para añadir al calendario, tareas para listas de pendientes).
+
+8. **Integración con servicios externos**:
+   - Permite la sincronización con servicios de almacenamiento en la nube (Google Drive, Dropbox).
+   - Añade integraciones con herramientas de productividad (Notion, Evernote, etc.).
+
+9. **Modo offline**:
+   - Implementa un sistema de reconocimiento offline para situaciones sin conexión a internet, usando modelos de reconocimiento local.
+
+10. **Análisis y estadísticas**:
+    - Añade análisis de uso (tiempo ahorrado, palabras por minuto).
+    - Implementa informes de precisión y sugerencias de mejora.
+
+Para implementar estas funcionalidades, necesitarías evaluar qué API y bibliotecas adicionales son necesarias, así como considerar los permisos requeridos para la extensión. Algunas características más avanzadas podrían requerir servicios backend adicionales o APIs de terceros.

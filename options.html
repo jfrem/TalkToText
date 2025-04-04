@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuración de Voice Dictation Pro</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #1a3636;
+        --secondary-color: #0f2727;
+        --accent-color: #db4437;
+        --text-color: #333;
+        --light-text: #fff;
+        --border-color: #ddd;
+        --bg-color: #fff;
+        --hover-bg: #f5f5f5;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --primary-color: #2c5454;
+          --secondary-color: #1a3636;
+          --accent-color: #ff5a5a;
+          --text-color: #eee;
+          --light-text: #fff;
+          --border-color: #444;
+          --bg-color: #333;
+          --hover-bg: #444;
+        }
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: var(--light-text);
+        padding: 20px;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      header p {
+        font-size: 16px;
+        opacity: 0.8;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .section {
+        margin-bottom: 30px;
+        background: var(--bg-color);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .section h2 {
+        color: var(--primary-color);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+      }
+
+      .section h2 i {
+        margin-right: 10px;
+      }
+
+      .option-group {
+        margin-bottom: 15px;
+      }
+
+      .option-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      .option-group input[type="checkbox"] {
+        margin-right: 8px;
+      }
+
+      .option-group select,
+      .option-group input[type="number"],
+      .option-group input[type="text"],
+      .option-group input[type="color"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-size: 14px;
+      }
+
+      .option-group input[type="range"] {
+        width: 100%;
+      }
+
+      .option-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+      }
+
+      .term-manager {
+        margin-top: 20px;
+      }
+
+      .term-list {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      .term-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .term-item:last-child {
+        border-bottom: none;
+      }
+
+      .term-item:hover {
+        background-color: var(--hover-bg);
+      }
+
+      .add-term-form {
+        display: flex;
+        margin-top: 10px;
+      }
+
+      .add-term-form input {
+        flex-grow: 1;
+        margin-right: 10px;
+        padding: 8px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+      }
+
+      .add-term-form button {
+        padding: 8px 15px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+      }
+
+      .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--secondary-color);
+      }
+
+      .btn-danger {
+        background-color: var(--accent-color);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background-color: #c53929;
+      }
+
+      .btn-secondary {
+        background-color: #f5f5f5;
+        color: var(--text-color);
+      }
+
+      .btn-secondary:hover {
+        background-color: #e5e5e5;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+      }
+
+      .actions button {
+        margin-left: 10px;
+      }
+
+      .remove-btn {
+        background: none;
+        border: none;
+        color: var(--accent-color);
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .shortcuts-list {
+        list-style: none;
+      }
+
+      .shortcuts-list li {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .shortcut-key {
+        background-color: var(--hover-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 3px;
+        padding: 3px 6px;
+        margin-right: 10px;
+        font-family: monospace;
+        font-weight: bold;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+        color: #888;
+        font-size: 14px;
+      }
+
+      /* Toast notification */
+      #toast {
+        visibility: hidden;
+        min-width: 200px;
+        margin-left: -125px;
+        background-color: #4caf50;
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1000;
+        left: 50%;
+        bottom: 30px;
+      }
+
+      #toast.show {
+        visibility: visible;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+
+      @keyframes fadein {
+        from {
+          bottom: 0;
+          opacity: 0;
+        }
+        to {
+          bottom: 30px;
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeout {
+        from {
+          bottom: 30px;
+          opacity: 1;
+        }
+        to {
+          bottom: 0;
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1><i class="fas fa-microphone"></i> Voice Dictation Pro</h1>
+      <p>Configuración de la extensión de dictado por voz</p>
+    </header>
+
+    <div class="container">
+      <div class="section">
+        <h2><i class="fas fa-sliders-h"></i> Configuración general</h2>
+        <div class="option-grid">
+          <div class="option-group">
+            <label>
+              <input type="checkbox" id="autoCapitalize" /> Capitalización
+              automática
+            </label>
+            <p class="option-description">
+              Capitaliza automáticamente después de un punto
+            </p>
+          </div>
+
+          <div class="option-group">
+            <label>
+              <input type="checkbox" id="preserveEnglish" /> Preservar términos
+              en inglés
+            </label>
+            <p class="option-description">
+              Mantiene palabras en inglés sin traducir
+            </p>
+          </div>
+
+          <div class="option-group">
+            <label>
+              <input type="checkbox" id="enableLearning" /> Aprendizaje
+              automático
+            </label>
+            <p class="option-description">
+              Detecta y aprende términos técnicos
+            </p>
+          </div>
+
+          <div class="option-group">
+            <label>
+              <input type="checkbox" id="autoCorrect" /> Autocorrección
+            </label>
+            <p class="option-description">
+              Corrige palabras basado en el diccionario
+            </p>
+          </div>
+
+          <div class="option-group">
+            <label>
+              <input type="checkbox" id="continuousMode" /> Modo continuo
+            </label>
+            <p class="option-description">Mantiene el reconocimiento activo</p>
+          </div>
+
+          <div class="option-group">
+            <label>
+              <input type="checkbox" id="enableCommands" /> Comandos de voz
+            </label>
+            <p class="option-description">
+              Habilita el uso de comandos por voz
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2><i class="fas fa-paint-brush"></i> Apariencia</h2>
+        <div class="option-group">
+          <label for="buttonPosition">Posición del botón:</label>
+          <select id="buttonPosition">
+            <option value="right">Derecha</option>
+            <option value="left">Izquierda</option>
+          </select>
+        </div>
+
+        <div class="option-group">
+          <label>
+            <input type="checkbox" id="showControlPanel" /> Mostrar panel de
+            control
+          </label>
+          <p class="option-description">
+            Muestra un panel flotante con controles durante el dictado
+          </p>
+        </div>
+
+        <div class="option-group">
+          <label for="accentColor">Color de acento:</label>
+          <input type="color" id="accentColor" />
+        </div>
+      </div>
+
+      <div class="section">
+        <h2><i class="fas fa-cogs"></i> Configuración avanzada</h2>
+        <div class="option-group">
+          <label for="confidenceThreshold">Umbral de confianza:</label>
+          <input
+            type="range"
+            id="confidenceThreshold"
+            min="0"
+            max="1"
+            step="0.05"
+            value="0.7"
+          />
+          <span id="confidenceValue">70%</span>
+          <p class="option-description">
+            Nivel mínimo de confianza para aceptar el dictado
+          </p>
+        </div>
+
+        <div class="option-group">
+          <label for="idleTimeout">Tiempo de inactividad (ms):</label>
+          <input type="number" id="idleTimeout" value="30000" />
+          <p class="option-description">
+            Tiempo antes de entrar en modo reposo
+          </p>
+        </div>
+
+        <div class="option-group">
+          <label for="defaultLanguage">Idioma predeterminado:</label>
+          <select id="defaultLanguage">
+            <option value="es-ES">Español (España)</option>
+            <option value="es-MX">Español (México)</option>
+            <option value="en-US">English (US)</option>
+            <option value="en-GB">English (UK)</option>
+            <option value="fr-FR">Français</option>
+            <option value="de-DE">Deutsch</option>
+            <option value="it-IT">Italiano</option>
+            <option value="pt-BR">Português</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2><i class="fas fa-book"></i> Diccionario personalizado</h2>
+
+        <div class="term-manager">
+          <h3>Términos preservados</h3>
+          <p>Palabras que se preservarán exactamente como las dictas:</p>
+          <div class="term-list" id="learnedTermsList">
+            <!-- Términos generados dinámicamente -->
+          </div>
+
+          <div class="add-term-form">
+            <input
+              type="text"
+              id="newTerm"
+              placeholder="Añadir nuevo término..."
+            />
+            <button id="addTerm" class="btn btn-primary">Añadir</button>
+          </div>
+        </div>
+
+        <div class="term-manager">
+          <h3>Correcciones personalizadas</h3>
+          <p>Correcciones automáticas para palabras mal reconocidas:</p>
+          <div class="term-list" id="correctionsList">
+            <!-- Correcciones generadas dinámicamente -->
+          </div>
+
+          <div class="add-term-form">
+            <input
+              type="text"
+              id="incorrectWord"
+              placeholder="Palabra incorrecta"
+            />
+            <input type="text" id="correctWord" placeholder="Corrección" />
+            <button id="addCorrection" class="btn btn-primary">Añadir</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2><i class="fas fa-keyboard"></i> Atajos de teclado</h2>
+        <p>Utiliza estos atajos para controlar la extensión rápidamente:</p>
+
+        <ul class="shortcuts-list">
+          <li>
+            <span class="shortcut-key">Alt+Shift+D</span>
+            <span>Iniciar/Detener dictado</span>
+          </li>
+          <li>
+            <span class="shortcut-key">Alt+Shift+C</span>
+            <span>Activar/Desactivar modo comando</span>
+          </li>
+          <li>
+            <span class="shortcut-key">Alt+Shift+S</span>
+            <span>Abrir configuración</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="actions">
+        <button id="resetSettings" class="btn btn-danger">
+          Restablecer valores predeterminados
+        </button>
+        <button id="saveSettings" class="btn btn-primary">
+          Guardar configuración
+        </button>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Voice Dictation Pro v2.0.0 | &copy; 2023</p>
+    </div>
+
+    <div id="toast">Configuración guardada correctamente</div>
+
+    <script src="options.js"></script>
+  </body>
+</html>

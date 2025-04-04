@@ -1,21 +1,64 @@
 {
   "manifest_version": 3,
-  "name": "Voice Dictation",
-  "version": "1.0",
-  "description": "Extensión de dictado por voz.",
-  "permissions": ["tabs", "activeTab", "scripting", "storage", "microphone"],
-  "host_permissions": ["http://*/*", "https://*/*"],
+  "name": "Voice Dictation Pro",
+  "version": "2.0.0",
+  "description": "Dictado por voz mejorado para cualquier campo de texto en la web",
+  "permissions": ["storage", "contextMenus", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "icon.png"
+    "default_icon": {
+      "16": "icons/mic-inactive-16.png",
+      "32": "icons/mic-inactive-32.png",
+      "48": "icons/mic-inactive-48.png",
+      "128": "icons/mic-inactive-128.png"
+    },
+    "default_title": "Dictado por Voz"
   },
   "icons": {
-    "48": "icon.png"
+    "16": "icons/mic-inactive-16.png",
+    "32": "icons/mic-inactive-32.png",
+    "48": "icons/mic-inactive-48.png",
+    "128": "icons/mic-inactive-128.png"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["popup.js"]
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "commands": {
+    "toggle-dictation": {
+      "suggested_key": {
+        "default": "Alt+Shift+D"
+      },
+      "description": "Iniciar/Detener dictado"
+    },
+    "toggle-command-mode": {
+      "suggested_key": {
+        "default": "Alt+Shift+C"
+      },
+      "description": "Activar/Desactivar modo comando"
+    },
+    "show-settings": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "Mostrar configuración"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*"],
+      "matches": ["<all_urls>"]
     }
   ]
 }
